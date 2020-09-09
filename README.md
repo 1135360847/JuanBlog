@@ -1,10 +1,14 @@
 # 											Juan(祖安)博客
 
-
-
-
-
 ## 项目简介
+
+[TOC]
+
+> github地址：https://github.com/1135360847/JuanBlog
+>
+> gitee地址：https://gitee.com/zzw_520/juan-blog
+>
+> 该项目只能用于学习交流
 
 ### :basketball_man:代码目录
 
@@ -98,6 +102,7 @@
 		<td ><center><img src="./docs/文章发布.png" >文章发布</center></td>
     </tr>
 </table>
+
 
 
 

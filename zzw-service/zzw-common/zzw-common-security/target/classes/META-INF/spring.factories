@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zzw.common.security.config.TokenWebSecurityConfig,\
-  com.zzw.common.security.security.DefaultPasswordEncoder,\
-  com.zzw.common.security.security.TokenManager
-  
