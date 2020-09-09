@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.blog.mapper.ArticleMapper">
+
+	<resultMap id="BaseResultMap" type="com.zzw.core.api.po.Article">
+			<id column="id" property="id" />
+			<result column="article_con_num" property="articleConNum" />
+			<result column="article_content" property="articleContent" />
+			<result column="article_content_html" property="articleContentHtml" />
+			<result column="article_head_pic" property="articleHeadPic" />
+			<result column="article_head_pic_key" property="articleHeadPicKey" />
+			<result column="article_read_count" property="articleReadCount" />
+			<result column="article_remark" property="articleRemark" />
+			<result column="article_star_count" property="articleStarCount" />
+			<result column="article_state" property="articleState" />
+			<result column="article_tags" property="articleTags" />
+			<result column="article_title" property="articleTitle" />
+			<result column="article_category_id" property="articleCategoryId" />
+			<result column="is_deleted" property="isDeleted" />
+			<result column="gmt_create" property="gmtCreate" />
+			<result column="gmt_modified" property="gmtModified" />
+			<result column="manager_id" property="managerId" />
+	</resultMap>
+
+
+	<resultMap id="BaseResultVOMap" type="com.zzw.core.api.vo.ArticleVO">
+		<id column="id" property="id" />
+		<result column="article_con_num" property="articleConNum" />
+		<result column="article_content" property="articleContent" />
+		<result column="article_content_html" property="articleContentHtml" />
+		<result column="article_head_pic" property="articleHeadPic" />
+		<result column="article_head_pic_key" property="articleHeadPicKey" />
+		<result column="article_read_count" property="articleReadCount" />
+		<result column="article_remark" property="articleRemark" />
+		<result column="article_star_count" property="articleStarCount" />
+		<result column="article_state" property="articleState" />
+		<result column="article_tags" property="articleTags" />
+		<result column="article_title" property="articleTitle" />
+		<result column="article_category_id" property="articleCategoryId" />
+		<result column="article_category_name" property="articleCategoryName" />
+		<result column="is_deleted" property="isDeleted" />
+		<result column="gmt_create" property="gmtCreate" />
+		<result column="gmt_modified" property="gmtModified" />
+		<result column="manager_id" property="managerId" />
+		<result column="nick_name" property="managerName" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+			a.id as id,
+			a.article_head_pic as article_head_pic,
+			a.article_head_pic_key as article_head_pic_key,
+			a.article_title as article_title,
+			a.article_tags as article_tags,
+			a.article_remark as article_remark,
+			a.article_state as article_state,
+			a.manager_id as manager_id,
+			a.article_content as article_content,
+			a.article_content_html as article_content_html,
+			a.article_category_id as article_category_id,
+			a.article_read_count as article_read_count,
+			a.article_star_count as article_star_count,
+			a.article_con_num as article_con_num,
+			a.gmt_create as gmt_create,
+			a.gmt_modified as gmt_modified,
+			a.is_deleted as is_deleted
+	</sql>
+	<!--分页查询文章数据-->
+    <select id="articlePage" resultMap="BaseResultVOMap">
+		select
+			<include refid="Base_Column_List"/>,
+			b.nick_name as nick_name,
+			c.name as article_category_name
+		from
+			zzw_article a
+		left join zzw_admin_user b on a.manager_id = b.id
+		left join zzw_article_category c on a.article_category_id = c.id
+		<where>
+			a.is_deleted = 0
+			<if test="query.articleState != null">
+				and a.articleState = #{query.articleState}
+			</if>
+			<if test="query.articleTitle != null and query.articleTitle != ''">
+				and a.articleTitle LIKE CONCAT('%',#{query.articleTitle},'%')
+			</if>
+			<if test="query.articleTag != null and query.articleTag != ''">
+				and a.articleTag LIKE CONCAT('%',#{query.articleTag},'%')
+			</if>
+			<if test="query.articleType != null">
+				and a.articleType = #{query.articleType}
+			</if>
+			<if test="query.managerName != null and query.managerName != ''">
+				and b.nick_name LIKE CONCAT('%',#{query.managerName},'%')
+			</if>
+
+			<if test="query.keywords != null and query.keywords != ''">
+				and (b.nick_name LIKE CONCAT('%',#{query.keywords},'%')
+				|| a.article_title LIKE CONCAT('%',#{query.keywords},'%')
+				|| a.article_remark LIKE CONCAT('%',#{query.keywords},'%')
+				)
+			</if>
+			<if test="query.tagKeywords != null and query.tagKeywords != ''">
+				and FIND_IN_SET(#{query.tagKeywords},a.article_tags)
+			</if>
+		</where>
+		order by a.gmt_create desc
+	</select>
+
+	<!--分页查询文章数据-->
+	<select id="selectList" resultMap="BaseResultVOMap">
+		select
+		<include refid="Base_Column_List"/>,
+		b.nick_name as nick_name,
+		c.name as article_category_name
+		from
+		zzw_article a
+		left join zzw_admin_user b on a.manager_id = b.id
+		left join zzw_article_category c on a.article_category_id = c.id
+		<where>
+			a.is_deleted = 0
+			<if test="query.articleState != null">
+				and a.articleState = #{query.articleState}
+			</if>
+			<if test="query.articleTitle != null and query.articleTitle != ''">
+				and a.articleTitle LIKE CONCAT('%',#{query.articleTitle},'%')
+			</if>
+			<if test="query.articleTag != null and query.articleTag != ''">
+				and a.articleTag LIKE CONCAT('%',#{query.articleTag},'%')
+			</if>
+			<if test="query.articleType != null">
+				and a.articleType = #{query.articleType}
+			</if>
+			<if test="query.managerName != null and query.managerName != ''">
+				and b.nick_name LIKE CONCAT('%',#{query.managerName},'%')
+			</if>
+		</where>
+		order by a.gmt_create desc
+	</select>
+	<!--查询单条-->
+	<select id="selectVOById" resultMap="BaseResultVOMap">
+		select
+		<include refid="Base_Column_List"/>,
+		b.nick_name as nick_name,
+		c.name as article_category_name
+		from
+		zzw_article a
+		left join zzw_admin_user b on a.manager_id = b.id
+		left join zzw_article_category c on a.article_category_id = c.id
+		<where>
+			a.is_deleted = 0
+			<if test="articleId != null">
+				and a.id = #{articleId}
+			</if>
+
+		</where>
+		order by a.gmt_create desc
+	</select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.blog.mapper.FriendAddressMapper">
+
+	<resultMap id="BaseResultMap" type="com.zzw.core.api.po.FriendAddress">
+			<id column="id" property="id" />
+			<result column="address" property="address" />
+			<result column="name" property="name" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		address, id, name
+	</sql>
+	
+</mapper>

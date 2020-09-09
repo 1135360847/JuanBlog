@@ -1,0 +1,3 @@
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.zzw.core.api.feign.fallback.ProductFeignFallback,\
+#  com.zzw.core.api.feign.factory.ProductFeignFallbackFactory

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.user.mapper.PermissionMapper">
+
+	<resultMap id="BaseResultMap" type="com.zzw.core.api.po.Permission">
+			<id column="id" property="id" />
+			<result column="pid" property="pid" />
+			<result column="name" property="name" />
+			<result column="type" property="type" />
+			<result column="permission_value" property="permissionValue" />
+			<result column="path" property="path" />
+			<result column="component" property="component" />
+			<result column="icon" property="icon" />
+			<result column="status" property="status" />
+			<result column="is_deleted" property="isDeleted" />
+			<result column="gmt_create" property="gmtCreate" />
+			<result column="gmt_modified" property="gmtModified" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, pid, name, type, permission_value, path, component, icon, status, is_deleted, gmt_create, gmt_modified
+	</sql>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+        p.id,p.pid,p.name,p.type,p.permission_value,path,p.component,p.icon,p.status,p.is_deleted,p.gmt_create,p.gmt_modified
+    </sql>
+	<select id="selectPermissionByUserId" resultMap="BaseResultMap">
+		select
+		<include refid="columns" />
+		from zzw_user_role ur
+		inner join zzw_role_permission rp on rp.role_id = ur.role_id
+		inner join zzw_permission p on p.id = rp.permission_id
+		where ur.user_id = #{userId}
+		and ur.is_deleted = 0
+		and rp.is_deleted = 0
+		and p.is_deleted = 0
+	</select>
+
+	<select id="selectPermissionValueByUserId" resultType="String">
+    	select
+        p.permission_value
+        from zzw_user_role ur
+        inner join zzw_role_permission rp on rp.role_id = ur.role_id
+        inner join zzw_permission p on p.id = rp.permission_id
+        where ur.user_id = #{userId}
+        and p.type = 2
+        and ur.is_deleted = 0
+        and rp.is_deleted = 0
+        and p.is_deleted = 0
+    </select>
+
+	<select id="selectAllPermissionValue" resultType="String">
+        select
+        permission_value
+        from zzw_permission
+        where type = 2
+        and is_deleted = 0
+    </select>
+
+	
+</mapper>

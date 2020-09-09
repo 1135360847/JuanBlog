@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zzw.common.core.config.FeignBeanFactoryPostProcessor,\
+  com.zzw.common.core.config.JacksonConfig,\
+  com.zzw.common.core.config.CrossConfig,\
+  com.zzw.common.core.config.MybatisPlusConfig,\
+  com.zzw.common.core.exception.GlobalExceptionHandler,\
+  com.zzw.common.core.handler.MyMetaObjectHandler,\
+  com.zzw.common.core.config.QiNiuFileConfig

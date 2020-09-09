@@ -1,0 +1,64 @@
+server:
+  port: 8092
+spring:
+  application:
+    name: zzw-blog
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://zzw-mysql:3306/hh-blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: zhangzhiwen
+    password: 113536
+    platform: mysql
+  #返回json的全局时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  redis:
+    host: 115.29.110.148
+    port: 6379
+    password: 113536
+    jedis:
+      pool:
+        min-idle: 0
+        max-idle: 1500
+        max-active: 1500
+        max-wait: -1ms
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      table-underline: true
+      field-strategy: 2 #字段策略 0:"忽略判断",1:"非 NULL 判断",2:"非空判断"
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+  # 配置中心
+#  cloud:
+#    config:
+#      fail-fast: true
+#      name: ${spring.application.name}
+#      profile: ${spring.profiles.active}
+#      discovery:
+#        enabled: true
+#        service-id: zzw-config
+#  profiles:
+#    active: dev
+
+
+
+#eureka:
+#  client:
+#    service-url:
+#      #此处的zzw-eureka是rancher里面的服务名
+#      defaultZone: http://zzw-eureka:8761/eureka
